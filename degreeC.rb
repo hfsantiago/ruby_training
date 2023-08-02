@@ -5,14 +5,18 @@ if name.length() > 7
 end
 
 my_hash = {
-  "Mon" => name[0],
-  "Tue" => name[1],
-  "Wed" => name[2],
-  "Thu" => name[3],
-  "Fri" => name[4],
-  "Sat" => name[5],
-  "Sun" => name[6],
+  "Mon" => nil,
+  "Tue" => nil,
+  "Wed" => nil,
+  "Thu" => nil,
+  "Fri" => nil,
+  "Sat" => nil,
+  "Sun" => nil,
 }
+
+name.each_with_index do |value, index|
+  my_hash[my_hash.keys[index]] = value
+end
 
 =begin
 name.each do |num|
