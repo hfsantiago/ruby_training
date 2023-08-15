@@ -1,5 +1,3 @@
-name = gets.split(" ")
-
 class AppLogical
   attr :num, :my_hash      
   def  initialize(num)
@@ -24,18 +22,14 @@ class AppLogical
   end
 end
 
-class Farenheit
-  attr :temp       
-  def  initialize(temp)
+class Celcius #convert to celcius
+    attr_accessor :temp
+  def initialize(temp)
     @temp = temp.to_i
   end
 
   def degree_c 
     temp*1.8 - 32
-  end
-  
-  def temp
-    @temp 
   end
                                 
   def prompt(week_day)
@@ -43,32 +37,80 @@ class Farenheit
   end
 end
 
-class Celcius
-  def  initialize(temp)
+class Farenheit < Celcius #convert to Farenheit
+  def initialize(temp)
+    super(temp)
     @temp = temp.to_i
   end
 
-  def DegreeF 
+  def degree_f 
     @tempF =  @temp*1.8 + 32
   end
                                 
-  #  def prompt
-  # puts "#{@temp} degrees C | #{@tempF} desgrees F"
-  #  end
+  def prompt(week_day)
+    "#{week_day} | #{temp} degrees C | #{degree_f} desgrees F"
+  end
 end
 
-app_log = AppLogical.new(name)
+leave = false
 
-#convert_to_degree F
-#app_log.filled.each do |k,v| 
-#  cel = Celcius.new(v)
-#  puts cel.prompt(k)
-#end
+until leave
+    puts "Put your temperatures... :-)"
+    days = gets.split(" ")
+    next puts "You only puts #{days} temperatures values, puts exactly 7" if days.size < 7
+    next puts "You only puts #{days} temperatures values, puts exactly 7" if days.size > 7
+    
+    app_log = AppLogical.new(days)
+   
+=begin    
+    #convert_to_farenheit
+    def to_far
+    app_log.filled.each do |k,v| 
+      far = Farenheit.new(v)
+      puts far.prompt(k)
+    end 
+end
 
-puts"------------------------------------"  
+    #convert_to_celcius
+    def to_cel
+    app_log.filled.each do |k,v| 
+      cel = Celcius.new(v)
+      puts cel.prompt(k)
+    end 
+end
 
-#convert_to_degree C
-app_log.filled.each do |k,v| 
-  cel = Farenheit.new(v)
-  puts cel.prompt(k)
+=end    
+
+    puts "Do you prefer Farenheit (F) or Celcius (C) [F/C]"
+    convert = gets.strip
+    puts convert
+    
+    if convert == "F"
+        app_log.filled.each do |k,v| 
+          far = Farenheit.new(v)
+          puts far.prompt(k)
+        end 
+    elsif convert == "C"
+        app_log.filled.each do |k,v| 
+          cel = Celcius.new(v)
+          puts cel.prompt(k)
+        end
+    else
+        next puts "Puts the correct temperature..." 
+        convert = gets.split(" ")
+    end
+    
+
+    # next to_far if convert == "F"
+    # next to_cel if convert == "C"
+    
+  
+    puts"------------------------------------"  
+
+    puts " "
+    puts " "
+    
+    puts "Continue program? (y/n)"
+    answer = gets.strip
+    leave = answer != "y"
 end
